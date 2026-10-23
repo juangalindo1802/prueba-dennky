@@ -25,12 +25,12 @@ npm run preview  # Servir la compilación localmente
 ## Qué se realizó
 
 - Se creó el proyecto con Vue 3, Vite y TypeScript, sin una biblioteca de componentes para controlar la maquetación.
-- Se reprodujeron las dos columnas, la fotografía, el testimonio, los campos con etiquetas flotantes, las formas, los espacios y el color de acento de la referencia. Los textos de la interfaz se conservaron en inglés.
+- Se reprodujeron las dos columnas, la fotografía, el testimonio, los campos con etiquetas flotantes, las formas, los espacios y el color de acento de la referencia. Por preferencia de presentación, la imagen y el formulario ocupan toda la ventana, sin el fondo gris, los márgenes ni el contenedor redondeado de la imagen original. Los textos de la interfaz se conservaron en inglés.
 - Se separó el campo reutilizable (`src/components/FormField.vue`) de la lógica de registro (`src/App.vue`) y de las reglas de validación (`src/validation.ts`).
 - Se añadieron errores para nombre vacío o con menos de dos caracteres, correo vacío o con formato incorrecto, contraseña vacía o con menos de ocho caracteres útiles, y confirmación vacía o diferente. El nombre admite caracteres internacionales.
 - Los errores aparecen al salir de un campo o enviar el formulario, y se actualizan al corregir los datos. Cambiar la contraseña vuelve a comprobar su confirmación.
 - Se incorporaron etiquetas asociadas, atributos ARIA para errores, anuncios de estado, foco en el primer campo inválido, navegación por teclado y respeto por la preferencia de movimiento reducido.
-- En móviles, la tarjeta se convierte en una columna y el testimonio se presenta como cabecera compacta. Se evita fijar la altura del formulario para permitir errores, zoom y pantallas bajas.
+- En móviles, la página se convierte en una columna y el testimonio se presenta como cabecera compacta. El diseño cubre como mínimo la altura de la ventana y permite desplazamiento cuando lo requieren los errores, el zoom o las pantallas bajas.
 - La fotografía y la tipografía se sirven desde `public/`; no requieren solicitudes a terceros durante el uso de la aplicación.
 - Se añadieron pruebas con Vitest y Vue Test Utils para errores, corrección de datos, foco, éxito, reinicio y acciones secundarias. Playwright comprueba el flujo completo y la ausencia de desbordamiento horizontal en Chrome a tres tamaños de pantalla.
 

@@ -9,7 +9,7 @@
 :root {
   font-family: 'Inter', Arial, sans-serif;
   color: #161616;
-  background: #ebebed;
+  background: #fff;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -25,17 +25,14 @@ button { cursor: pointer; }
 button:focus-visible, a:focus-visible { outline: 3px solid #7654f8; outline-offset: 4px; }
 button { border: 0; }
 
-#app { min-height: 100svh; display: grid; place-items: center; padding: 72px 5%; }
+#app { min-height: 100svh; }
 .registration {
   display: grid;
   grid-template-columns: 1fr 2fr;
   width: 100%;
-  max-width: 1440px;
-  min-height: 900px;
+  min-height: 100svh;
   overflow: hidden;
-  border-radius: 18px;
   background: #fff;
-  box-shadow: 0 60px 55px -50px #242a2c70;
 }
 .story { position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 40px; background: #594c43; color: white; isolation: isolate; }
 .story__photo { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 36% center; transform: scaleX(-1); }
@@ -47,7 +44,7 @@ button { border: 0; }
 .testimonial figcaption { display: grid; gap: 6px; }
 .testimonial__name { font-size: 16px; font-weight: 600; }
 .testimonial__role { font-size: 13px; line-height: 1.5; }
-.signup { display: flex; align-items: center; justify-content: center; padding: 76px 40px; }
+.signup { display: flex; align-items: center; justify-content: center; padding: clamp(32px, 6svh, 76px) 40px; }
 .signup__content { width: 100%; max-width: 384px; }
 .signup__header { text-align: center; margin-bottom: 34px; }
 h1 { font-size: 30px; font-weight: 650; line-height: 1.25; letter-spacing: -.9px; margin: 0 0 8px; }
@@ -81,20 +78,15 @@ h1 { font-size: 30px; font-weight: 650; line-height: 1.25; letter-spacing: -.9px
 .success h1:focus { outline: none; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 
-@media (min-width: 1400px) and (min-height: 1100px) {
-  #app { padding-top: 150px; padding-bottom: 150px; }
-}
 @media (max-width: 1199px) {
-  #app { padding: 40px 4%; }
-  .registration { min-height: 800px; grid-template-columns: 38% 62%; }
+  .registration { grid-template-columns: 38% 62%; }
   .story { padding: 30px; }
   .quote-break { display: none; }
   .testimonial blockquote { font-size: 27px; }
   .testimonial__role { font-size: 12px; }
 }
 @media (max-width: 760px) {
-  #app { padding: 24px 16px; }
-  .registration { grid-template-columns: 1fr; min-height: auto; max-width: 520px; border-radius: 16px; }
+  .registration { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
   .story { min-height: 220px; padding: 24px; }
   .story__photo { object-position: 50% 37%; }
   .story::after { background: linear-gradient(180deg, #0004, #160b0299); }
@@ -111,7 +103,6 @@ h1 { font-size: 30px; font-weight: 650; line-height: 1.25; letter-spacing: -.9px
   .login { margin-top: 28px; }
 }
 @media (max-width: 370px) {
-  #app { padding: 12px; }
   .signup { padding: 32px 20px; }
   h1 { font-size: 24px; }
 }
