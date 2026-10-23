@@ -1,40 +1,61 @@
-# 🚀 Reto Técnico Front-End
+﻿# Nucleus · Registro con Vue 3
 
-¡Bienvenida al reto técnico! El objetivo de esta prueba no es evaluar sintaxis de memoria, sino tu criterio de **maquetación**, estructura HTML/CSS, resolución de problemas y cómo manejas la lógica básica de interacción.
+Solución del reto técnico de Front-End: reproducción de la pantalla de registro de Nucleus UI con Vue 3, Composition API y TypeScript (`<script setup lang="ts">`).
 
-Tiempo estimado: **1 día**.
+## Ejecutar el proyecto
 
----
+Requisitos: Node.js 22.12 o superior (se recomienda una versión LTS actual) y npm.
 
-## 🛠️ Instrucciones de inicio
+```bash
+npm install
+npm run dev
+```
 
-1. Realiza un **Fork** de este repositorio en tu cuenta personal de GitHub.
-2. Clona tu fork localmente o ábrelo en un entorno online (Codespaces, StackBlitz, etc.).
+Abrir la dirección que imprime Vite, normalmente http://127.0.0.1:5173.
+En PowerShell, si la política de ejecución bloquea `npm.ps1`, utilizar `npm.cmd` en lugar de `npm`.
+Las pruebas de navegador utilizan Google Chrome instalado en el equipo (canal `chrome` de Playwright).
 
-## 🎨 El Diseño a Replicar
-Debes replicar la interfaz de la siguiente imagen:
+```bash
+npm test          # Pruebas de validación e interacción
+npm run test:e2e # Pruebas en Chrome: escritorio, móvil y móvil de 320 px
+npm run build    # Comprobación de TypeScript y compilación a dist/
+npm run preview  # Servir la compilación localmente
+```
 
-<img width="1600" height="1200" alt="image" src="https://github.com/user-attachments/assets/135a44f3-c281-4a7d-af80-97c37d734296" />
+## Qué se realizó
 
-Referencia: https://dribbble.com/shots/25536172-Login-Register-Page-Nucleus-UI
+- Se creó el proyecto con Vue 3, Vite y TypeScript, sin una biblioteca de componentes para controlar la maquetación.
+- Se reprodujeron las dos columnas, la fotografía, el testimonio, los campos con etiquetas flotantes, las formas, los espacios y el color de acento de la referencia. Los textos de la interfaz se conservaron en inglés.
+- Se separó el campo reutilizable (`src/components/FormField.vue`) de la lógica de registro (`src/App.vue`) y de las reglas de validación (`src/validation.ts`).
+- Se añadieron errores para nombre vacío o con menos de dos caracteres, correo vacío o con formato incorrecto, contraseña vacía o con menos de ocho caracteres útiles, y confirmación vacía o diferente. El nombre admite caracteres internacionales.
+- Los errores aparecen al salir de un campo o enviar el formulario, y se actualizan al corregir los datos. Cambiar la contraseña vuelve a comprobar su confirmación.
+- Se incorporaron etiquetas asociadas, atributos ARIA para errores, anuncios de estado, foco en el primer campo inválido, navegación por teclado y respeto por la preferencia de movimiento reducido.
+- En móviles, la tarjeta se convierte en una columna y el testimonio se presenta como cabecera compacta. Se evita fijar la altura del formulario para permitir errores, zoom y pantallas bajas.
+- La fotografía y la tipografía se sirven desde `public/`; no requieren solicitudes a terceros durante el uso de la aplicación.
+- Se añadieron pruebas con Vitest y Vue Test Utils para errores, corrección de datos, foco, éxito, reinicio y acciones secundarias. Playwright comprueba el flujo completo y la ausencia de desbordamiento horizontal en Chrome a tres tamaños de pantalla.
 
-## 📋 Requisitos del Reto
-1. Maquetación y Componente Vue
-- Construye la estructura utilizando Vue 3 (Composition API con <script lang="ts" setup> preferentemente).
-- Cuida la semántica HTML.
-- Cuidado visual con tipografías, espaciados (padding, gap), bordes y alineación.
+El formulario comienza vacío para que se pueda probar como un registro real. La referencia muestra campos ya completados; las etiquetas adoptan esa misma disposición al escribir.
 
-2. Mensaje de Error
-- Implementa la lógica para que, al intentar enviar el formulario con el campo vacío o inválido, se muestren mensajes de errores. 
+## Alcance de la demostración
 
-3. Extra / Plus (Opcional pero valorado)
-- Diseño Responsivo: Que el formulario se adapte de forma fluida a pantallas móviles y de escritorio.
+El envío correcto muestra una confirmación que explica que los datos pasaron la validación. No existe un servicio de autenticación: no se crea una cuenta, no se envían ni guardan datos y las contraseñas se limpian al completar el formulario. Los botones de Google y de inicio de sesión muestran un aviso sobre este alcance en la propia página.
 
-## 📦 Entrega
-- Sube tus cambios a la rama principal (main) de tu repositorio forkeado.
-- Deja un readme de tu proyecto explicando los pasos para levantar el proyecto, que pasos realizaste, lo que aprendiste, las mejoras que hiciste o que hubieras podido realizar, lo que te costó realizar.
-- Envía el enlace de tu GitHub al equipo evaluador.
+## Aprendizajes y decisiones
 
-## Nota final 🙂
-- Eres libre de usar las librerías que consideres necesarias.
-- Si tienes mejoras con respecto al diseño planteado, te animamos a que las realices.
+La solución muestra cómo organizar estado reactivo, reglas puras y componentes pequeños en Vue. La validación derivada con `computed` evita mantener mensajes desactualizados cuando se modifica la contraseña. Las etiquetas flotantes permiten conservar el aspecto del diseño sin usar el placeholder como única identificación del campo.
+
+El principal desafío de maquetación fue conservar las proporciones y el recorte de la fotografía sin limitar la altura del contenido. La fotografía se refleja con CSS como en la referencia. En pantallas pequeñas se cambia la composición en vez de reducir todo proporcionalmente. El foco y los mensajes accesibles se verifican con pruebas de interacción.
+
+Como siguientes mejoras se podrían conectar un backend con validación en servidor, incorporar OAuth real, permitir mostrar la contraseña y añadir pruebas visuales automatizadas entre navegadores. La validación de correo comprueba un formato básico; no verifica que el buzón exista.
+
+## Referencias y créditos
+
+- [Diseño de Taufiq Anshori para Nucleus UI en Dribbble](https://dribbble.com/shots/25536172-Login-Register-Page-Nucleus-UI).
+- [Fotografía de Brooke Cagle en Unsplash](https://unsplash.com/photos/woman-sitting-around-table-holding-tablet-JBwcenOuRCg), utilizada como recurso local según la [licencia de Unsplash](https://unsplash.com/license).
+- [Inter, de Rasmus Andersson](https://rsms.me/inter/), distribuida bajo SIL Open Font License. Licencia incluida en `public/fonts/OFL.txt`.
+- El enunciado original se conserva en [docs/CHALLENGE.md](docs/CHALLENGE.md).
+
+## Entrega
+
+Repositorio: https://github.com/juangalindo1802/prueba-dennky.
+La solución se prepara para la rama `main`. El enlace del repositorio debe enviarse al equipo evaluador por el canal acordado.

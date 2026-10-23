@@ -1,0 +1,41 @@
+import { expect, test } from '@playwright/test'
+
+test('registration is responsive, accessible by keyboard, and validates input', async ({ page }, testInfo) => {
+  const pageErrors: string[] = []
+  page.on('pageerror', error => pageErrors.push(error.message))
+  await page.goto('/')
+  await page.evaluate(() => document.fonts.ready)
+  await expect(page.getByRole('heading', { name: 'Create your account' })).toBeVisible()
+  const photo = page.locator('.story__photo')
+  expect(await photo.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+
+  await page.getByRole('button', { name: 'Create account', exact: true }).click()
+  await expect(page.locator('.field__error')).toHaveCount(4)
+  await expect(page.getByLabel('Name', { exact: true })).toBeFocused()
+
+  await page.getByLabel('Name', { exact: true }).fill('Alex Jordan')
+  await page.keyboard.press('Tab')
+  await expect(page.getByLabel('Email', { exact: true })).toBeFocused()
+  await page.keyboard.type('not-an-email')
+  await page.keyboard.press('Tab')
+  await expect(page.locator('#email-error')).toBeVisible()
+  await page.getByLabel('Email', { exact: true }).fill('alex.jordan@gmail.com')
+  await page.getByLabel('Password', { exact: true }).fill('design-with-ease')
+  await page.getByLabel('Confirm password', { exact: true }).fill('does-not-match')
+  await page.getByRole('button', { name: 'Create account', exact: true }).click()
+  await expect(page.locator('#confirmPassword-error')).toHaveText('Your passwords do not match.')
+  await expect(page.getByLabel('Confirm password')).toBeFocused()
+  await page.getByLabel('Confirm password').fill('design-with-ease')
+  await expect(page.locator('.field__error')).toHaveCount(0)
+  await page.getByLabel('Password', { exact: true }).focus()
+  await page.screenshot({ path: testInfo.outputPath('registration.png'), fullPage: true })
+
+  await page.getByRole('button', { name: 'Create account', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'You’re all set, Alex!' })).toBeFocused()
+  await expect(page.getByText('no account has been created', { exact: false })).toBeVisible()
+  await page.getByRole('button', { name: 'Back to registration' }).click()
+  await expect(page.getByLabel('Name', { exact: true })).toHaveValue('')
+  expect(await page.evaluate(() => localStorage.length + sessionStorage.length)).toBe(0)
+  expect(pageErrors).toEqual([])
+})
